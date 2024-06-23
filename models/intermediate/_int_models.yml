@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: int_payment_type_amount_per_order
+    config:
+      materialized : ephemeral
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: credit_amount
+        tests:
+          - not_null
+      - name: total_amount
+        tests:
+          - not_null
+          
+          
+          
+          
