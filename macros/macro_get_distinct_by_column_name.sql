@@ -27,5 +27,5 @@
 
 {# Macro to get the distinct payment methods#}
 {% macro get_payment_method() %}
-    {{ return(get_column_values('payment_method', ref("stg_stripe_order_payments")))}}
+    {{ return(get_column_values('payment_method', ref("stg_stripe_order_payments"))) }}
 {% endmacro %}

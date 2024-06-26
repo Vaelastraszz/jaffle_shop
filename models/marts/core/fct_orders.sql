@@ -1,23 +1,25 @@
-with orders as (
-    select * from {{ ref('stg_jaffle_shop_orders') }}
+WITH orders AS (
+    SELECT * 
+    FROM {{ ref('stg_jaffle_shop_orders') }}
 ),
 
-payment_type_orders as (
-    select * from {{ ref('int_payment_type_amount_per_order') }}
+payment_type_orders AS (
+    SELECT * 
+    FROM {{ ref('int_payment_type_amount_per_order') }}
 )
 
-select
+SELECT
     ord.order_id,
     ord.customer_id,
     ord.order_date,
     pto.cash_amount,
     pto.credit_amount,
     pto.total_amount,
-    case
-        when status = 'completed'
-        then 1
-        else 0
-    end as is_order_completed
-
-from orders as ord
-left join payment_type_orders as pto using(order_id)
+    CASE
+        WHEN ord.status = 'completed' THEN 1
+        ELSE 0
+    END AS is_order_completed
+FROM orders AS ord
+LEFT JOIN payment_type_orders AS pto
+USING(order_id)
+{{ limit_dataset_if_not_deploy_env('order_date', 3) }}
